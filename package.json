@@ -1,8 +1,49 @@
 {
-  "name": "package",
-  "author": "John Doe",
-  "version": "0.0.0",
-  "description": "nothing.",
+  "name": "brickyard-command-dev",
+  "version": "0.0.2",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "e-cloud",
+  "license": "ISC",
+  "dependencies": {
+    "autoprefixer": "latest",
+    "anybar-webpack": "^1.2.0",
+    "babel-core": "^6.4.0",
+    "babel-loader": "^6.2.1",
+    "babel-plugin-transform-runtime": "^6.4.3",
+    "babel-polyfill": "^6.3.14",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "babel-runtime": "^6.3.19",
+    "browser-sync": "^2.11.1",
+    "browser-sync-webpack-plugin": "^1.0.1",
+    "css-loader": "^0.23.1",
+    "expose-loader": "^0.7.0",
+    "file-loader": "^0.8.5",
+    "glob": "^7.0.3",
+    "html-loader": "^0.4.3",
+    "html-webpack-plugin": "^2.0.0",
+    "http-proxy-middleware": "^0.14.0",
+    "imports-loader": "^0.6.5",
+    "lodash": "^4.6.1",
+    "log4js": "^0.6.33",
+    "morgan": "^1.7.0",
+    "ng-annotate": "^1.2.1",
+    "ng-annotate-loader": "~0.1.0",
+    "ngtemplate-loader": "^1.3.1",
+    "node-sass": "^3.4.2",
+    "postcss-loader": "^0.8.2",
+    "postcss-normalize-charset": "latest",
+    "progress-bar-webpack-plugin": "^1.8.0",
+    "resolve-url-loader": "^1.4.3",
+    "sass-loader": "^3.2.0",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
+  },
   "devDependencies": {
     "conventional-changelog": "^1.1.0",
     "eslint": "^2.8.0",
@@ -11,10 +52,6 @@
     "ghooks": "^1.2.1",
     "validate-commit-msg": "^2.6.1"
   },
-  "scripts": {
-    "test": "echo 'no test!'"
-  },
-  "license": "ISC",
   "config": {
     "validate-commit-msg": {
       "types": [
