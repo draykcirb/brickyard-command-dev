@@ -1,0 +1,48 @@
+{
+  "name": "package",
+  "author": "John Doe",
+  "version": "0.0.0",
+  "description": "nothing.",
+  "devDependencies": {
+    "conventional-changelog": "^1.1.0",
+    "eslint": "^2.8.0",
+    "eslint-config-airbnb-base": "^3.0.0",
+    "eslint-plugin-import": "^1.5.0",
+    "ghooks": "^1.2.1",
+    "validate-commit-msg": "^2.6.1"
+  },
+  "scripts": {
+    "test": "echo 'no test!'"
+  },
+  "license": "ISC",
+  "config": {
+    "validate-commit-msg": {
+      "types": [
+        "feat",
+        "fix",
+        "docs",
+        "style",
+        "refactor",
+        "example",
+        "perf",
+        "test",
+        "chore",
+        "revert"
+      ],
+      "warnOnFail": false,
+      "maxSubjectLength": 72,
+      "subjectPattern": ".+",
+      "subjectPatternErrorMsg": "subject does not match subject pattern!",
+      "helpMessage": ""
+    },
+    "ghooks": {
+      "//": {
+        "pre-commit": "check code style",
+        "post-checkout": "npm install"
+      },
+      "commit-msg": "validate-commit-msg",
+      "post-rewrite": "npm install",
+      "post-merge": "npm install"
+    }
+  }
+}
