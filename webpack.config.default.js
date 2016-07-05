@@ -12,7 +12,7 @@ const glob = require('glob')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 
-const butil = require('../../util')
+const butil = require('brickyard/lib/util')
 
 module.exports = {
 	make: function (runtime, configFactory) {
