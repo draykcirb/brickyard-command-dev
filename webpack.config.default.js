@@ -143,6 +143,7 @@ function createEntries(plugins) {
 			if (Array.isArray(entry)) {
 				return entry.reduce(function (result, value) {
 					result.push(createEntry(path.join(plugin.path, value)))
+					return result
 				}, [])
 			} else if (entry) {
 				return [createEntry(path.join(plugin.path, entry))]
