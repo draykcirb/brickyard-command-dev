@@ -10,7 +10,7 @@ const WebpackDevServer = require('webpack-dev-server')
 const util = require('util')
 const proxy = require('http-proxy-middleware')
 const morgan = require('morgan')
-const _ = require("lodash")
+const _ = require('lodash')
 
 module.exports = {
 	register,
@@ -52,7 +52,9 @@ function register(cmd, runnerCallback) {
 			delete option.proxyPort
 			delete option.proxyHost
 
-			runnerCallback && runnerCallback(option)
+			if (runnerCallback) {
+				runnerCallback(option)
+			}
 		})
 
 	return cmd
@@ -68,7 +70,7 @@ function run(runtime) {
 
 	const webpackConfig = configMaker.make(runtime)
 	if (runtime.config.showConfig) {
-		console.log(util.inspect(webpackConfig, { depth: 4 }))
+		logger.info('Following is the generated webpack config object with depth 4', util.inspect(webpackConfig, { depth: 4 }))
 	} else {
 		const compiler = webpack(webpackConfig)
 

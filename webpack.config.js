@@ -1,11 +1,10 @@
+/* eslint indent: 1 */
 /**
  * Created by scott on 16-4-5.
  */
 'use strict'
 
-const _ = require('lodash')
 const webpack = require('webpack')
-const path = require('path')
 const url = require('url')
 
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
@@ -34,16 +33,16 @@ function constructDevDefaultConfig(config, defaultConfig) {
 		entry: {
 			main: [
 				'babel-polyfill',
-				'webpack-dev-server/client?' + serverUrl + '/',
+				`webpack-dev-server/client?${serverUrl}/`,
 				'webpack/hot/dev-server'
 			]
 		},
 		output: {
-			publicPath: serverUrl + '/',
+			publicPath: `${serverUrl}/`,
 			pathinfo: true,
 			filename: '[name].js',
 			devtoolModuleFilenameTemplate: function (info) {
-				return 'file:///' + info.absoluteResourcePath.replace(/\\/g, '/')
+				return `file:///${info.absoluteResourcePath.replace(/\\/g, '/')}`
 			}
 		},
 		debug: true,
@@ -75,7 +74,7 @@ function constructDevDefaultConfig(config, defaultConfig) {
 				{
 					test: /\.html$/,
 					exclude: /index\.html$/,
-					loaders: ['ngtemplate?relativeTo=' + defaultConfig.context, 'html?attrs=link:href img:src source:src']
+					loaders: [`ngtemplate?relativeTo=${defaultConfig.context}`, 'html?attrs=link:href img:src source:src']
 				},
 				// image file
 				{

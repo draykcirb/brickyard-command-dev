@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint *.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "e-cloud",
@@ -46,8 +47,8 @@
   },
   "devDependencies": {
     "conventional-changelog": "^1.1.0",
-    "eslint": "^2.8.0",
-    "eslint-config-airbnb-base": "^3.0.0",
+    "eslint": "^3.0.0",
+    "eslint-config-airbnb-base": "^4.0.0",
     "eslint-plugin-import": "^1.5.0",
     "ghooks": "^1.2.1",
     "validate-commit-msg": "^2.6.1"

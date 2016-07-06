@@ -12,7 +12,7 @@ const glob = require('glob')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 
-const butil = require('brickyard/lib/util')
+const butil = require('brickyard3/lib/util')
 
 module.exports = {
 	make: function (runtime, configFactory) {
@@ -53,9 +53,9 @@ function constructDefault(config) {
 		},
 		module: {
 			loaders: [
-				//**********************************
+				// **********************************
 				// special
-				//**********************************
+				// **********************************
 				{
 					test: /jquery$/,
 					loader: 'expose?$!expose?jQuery'
