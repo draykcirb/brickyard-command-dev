@@ -26,6 +26,7 @@ function register(cmd, runnerCallback) {
 	logger.trace('register dev command')
 
 	cmd
+		.alias('d')
 		.description('develop a program')
 		.arguments('<program...>')
 		.usage('<program...> [options]')
