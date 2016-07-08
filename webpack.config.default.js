@@ -76,7 +76,7 @@ function constructDefault(config) {
 			new webpack.ResolverPlugin(
 				new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('.bower.json', ['main'])
 			),
-			//new ProgressBarPlugin()
+			new ProgressBarPlugin()
 		],
 		resolve: {
 			extensions: ['', '.webpack.js', '.web.js', '.js'],
