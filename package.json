@@ -10,6 +10,10 @@
   },
   "author": "e-cloud",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:draykcirb/brickyard-command-dev.git"
+  },
   "dependencies": {
     "autoprefixer": "latest",
     "anybar-webpack": "^1.2.0",
