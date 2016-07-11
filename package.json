@@ -55,7 +55,7 @@
     "validate-commit-msg": "^2.6.1"
   },
   "peerDependencies": {
-    "brickyard3": "~1.0.0"
+    "brickyard3": "^1.0.0"
   },
   "config": {
     "validate-commit-msg": {
