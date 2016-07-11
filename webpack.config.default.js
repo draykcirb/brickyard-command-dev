@@ -163,7 +163,8 @@ function createEntries(plugins) {
 function createEntry(_path) {
 	return new HtmlWebpackPlugin({
 		filename: 'index.html',
-		template: _path
+		template: _path,
+		chunksSortMode: 'dependency'
 	})
 }
 
