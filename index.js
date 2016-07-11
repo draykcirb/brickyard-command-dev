@@ -25,7 +25,7 @@ module.exports = {
 function register(cmd, runnerCallback) {
 	logger.trace('register dev command')
 
-	cmd
+	return cmd
 		.alias('d')
 		.description('develop a program')
 		.arguments('<program...>')
