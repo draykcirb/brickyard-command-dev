@@ -56,9 +56,9 @@ function constructDevDefaultConfig(config, defaultConfig) {
 				},
 				// js file
 				{
-					test: /\.js?$/,
+					test: /\.js$/,
 					exclude: /(node_modules|bower_components)/,
-					loaders: ['ng-annotate-loader', 'babel-loader']
+					loaders: ['ng-annotate-loader', 'babel-loader?cacheDirectory']
 				},
 				// pure css
 				{
