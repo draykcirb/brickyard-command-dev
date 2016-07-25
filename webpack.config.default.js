@@ -46,7 +46,7 @@ module.exports = {
  * @returns Object
  */
 function constructDefault(config) {
-	return {
+	const defaultConfig = {
 		context: path.resolve(process.cwd(), config.pluginStore),
 		output: {
 			path: path.join(config.outputBase, 'www')
@@ -96,6 +96,24 @@ function constructDefault(config) {
 			]
 		}
 	}
+
+	if (config.lint) {
+		defaultConfig.module.preLoaders = [
+			// style lint
+			{
+				test: /\.(scss|css)$/,
+				loader: 'stylelint'
+			},
+			// eslint
+			{
+				test: /\.js$/,
+				exclude: /(node_modules|bower_components)/,
+				loaders: ['eslint-loader']
+			}
+		]
+	}
+
+	return defaultConfig
 }
 
 // ==========================================================
