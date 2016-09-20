@@ -98,6 +98,13 @@ function constructCommon(config) {
 				}),
 				require('postcss-normalize-charset')
 			]
+		},
+		eslint: {
+			emitError: true,
+			emitWarning: false,
+			quiet: false,
+			failOnWarning: false,
+			failOnError: true
 		}
 	}
 
