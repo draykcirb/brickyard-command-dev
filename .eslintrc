@@ -6,7 +6,7 @@
 		"semi": [2, "never"],
 		"prefer-const": 0,
 		"camelcase": 1,
-		"indent": [2, "tab", {"SwitchCase": 1}],
+		"indent": [2, 4, {"SwitchCase": 1}],
 		"object-shorthand": 0,
 		"global-require": 1,
 		"func-names": 0,

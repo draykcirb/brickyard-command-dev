@@ -13,9 +13,9 @@ const AnyBarWebpackPlugin = require('anybar-webpack')
 const configDefaulter = require('./webpack.config.default')
 
 module.exports = {
-	make: function (runtime) {
-		return configDefaulter.make(runtime, constructDevDefaultConfig)
-	}
+    make: function (runtime) {
+        return configDefaulter.make(runtime, constructDevDefaultConfig)
+    }
 }
 
 /**
@@ -25,119 +25,119 @@ module.exports = {
  * @returns Object
  */
 function constructDevDefaultConfig(rtConfig, commonWebpackConfig) {
-	const serverUrl = url.format({
-		protocol: rtConfig.https ? 'https' : 'http',
-		hostname: rtConfig.host,
-		port: rtConfig.port
-	})
+    const serverUrl = url.format({
+        protocol: rtConfig.https ? 'https' : 'http',
+        hostname: rtConfig.host,
+        port: rtConfig.port
+    })
 
-	const devConfig = {
-		entry: {
-			main: [
-				'babel-polyfill',
-				'webpack-dev-server/client',
-				'webpack/hot/dev-server'
-			]
-		},
-		output: {
-			publicPath: `${serverUrl}/`,
-			pathinfo: true,
-			filename: '[name].js',
-			devtoolModuleFilenameTemplate: function (info) {
-				return `file:///${info.absoluteResourcePath.replace(/\\/g, '/')}`
-			}
-		},
-		debug: true,
-		devtool: 'source-map',
-		module: {
-			loaders: [
-				// website ico
-				{
-					test: /favicon.ico$/,
-					loader: 'file?name=[name].[ext]'
-				},
-				// js file
-				{
-					test: /\.js$/,
-					exclude: /(node_modules|bower_components)/,
-					loaders: ['ng-annotate-loader', 'babel-loader?cacheDirectory']
-				},
-				// pure css
-				{
-					test: /\.css$/,
-					loaders: ['style', 'css?sourceMap', 'postcss']
-				},
-				// scss
-				{
-					test: /\.scss$/,
-					loaders: ['style', 'css?sourceMap&autoprefixer&normalizeCharset', 'postcss', 'resolve-url', 'sass?sourceMap']
-				},
-				// html
-				{
-					test: /\.html$/,
-					exclude: /index\.html$/,
-					loaders: [`ngtemplate?relativeTo=${commonWebpackConfig.context}`, 'html?attrs=link:href img:src source:src']
-				},
-				// image file
-				{
-					test: /\.(jpe?g|png|gif|svg)$/i,
-					loaders: [
-						'file?name=img/[name].[ext]'
-					]
-				},
-				// misc file
-				{
-					test: /\.(json|map|wsdl|xsd)$/,
-					loaders: [
-						'file?name=misc/[name].[ext]'
-					]
-				},
-				// music file
-				{
-					test: /\.(mp3|wav)$/,
-					loaders: [
-						'file?name=media/[name].[ext]'
-					]
-				},
-				// font file
-				{
-					test: /\.(woff|woff2|ttf|eot)(\?.+)?$/,
-					loaders: [
-						'file?name=font/[name].[ext]'
-					]
-				},
-				// svg font file
-				{
-					test: /\.(svg)(\?.+)$/,
-					loaders: [
-						'file?name=font/[name].[ext]'
-					]
-				},
-			]
-		},
-		plugins: [
-			new BrowserSyncPlugin({
-				host: rtConfig.bsProxy.host,
-				port: rtConfig.bsProxy.port,
-				ghostMode: false,
-				https: rtConfig.https,
-				proxy: {
-					target: serverUrl,
-					ws: true
-				}
-			}, {
-				reload: false
-			}),
-			new webpack.HotModuleReplacementPlugin(),
-			new AnyBarWebpackPlugin({
-				enableNotifications: true
-			}),
-		]
-	}
+    const devConfig = {
+        entry: {
+            main: [
+                'babel-polyfill',
+                'webpack-dev-server/client',
+                'webpack/hot/dev-server'
+            ]
+        },
+        output: {
+            publicPath: `${serverUrl}/`,
+            pathinfo: true,
+            filename: '[name].js',
+            devtoolModuleFilenameTemplate: function (info) {
+                return `file:///${info.absoluteResourcePath.replace(/\\/g, '/')}`
+            }
+        },
+        debug: true,
+        devtool: 'source-map',
+        module: {
+            loaders: [
+                // website ico
+                {
+                    test: /favicon.ico$/,
+                    loader: 'file?name=[name].[ext]'
+                },
+                // js file
+                {
+                    test: /\.js$/,
+                    exclude: /(node_modules|bower_components)/,
+                    loaders: ['ng-annotate-loader', 'babel-loader?cacheDirectory']
+                },
+                // pure css
+                {
+                    test: /\.css$/,
+                    loaders: ['style', 'css?sourceMap', 'postcss']
+                },
+                // scss
+                {
+                    test: /\.scss$/,
+                    loaders: ['style', 'css?sourceMap&autoprefixer&normalizeCharset', 'postcss', 'resolve-url', 'sass?sourceMap']
+                },
+                // html
+                {
+                    test: /\.html$/,
+                    exclude: /index\.html$/,
+                    loaders: [`ngtemplate?relativeTo=${commonWebpackConfig.context}`, 'html?attrs=link:href img:src source:src']
+                },
+                // image file
+                {
+                    test: /\.(jpe?g|png|gif|svg)$/i,
+                    loaders: [
+                        'file?name=img/[name].[ext]'
+                    ]
+                },
+                // misc file
+                {
+                    test: /\.(json|map|wsdl|xsd)$/,
+                    loaders: [
+                        'file?name=misc/[name].[ext]'
+                    ]
+                },
+                // music file
+                {
+                    test: /\.(mp3|wav)$/,
+                    loaders: [
+                        'file?name=media/[name].[ext]'
+                    ]
+                },
+                // font file
+                {
+                    test: /\.(woff|woff2|ttf|eot)(\?.+)?$/,
+                    loaders: [
+                        'file?name=font/[name].[ext]'
+                    ]
+                },
+                // svg font file
+                {
+                    test: /\.(svg)(\?.+)$/,
+                    loaders: [
+                        'file?name=font/[name].[ext]'
+                    ]
+                },
+            ]
+        },
+        plugins: [
+            new BrowserSyncPlugin({
+                host: rtConfig.bsProxy.host,
+                port: rtConfig.bsProxy.port,
+                ghostMode: false,
+                https: rtConfig.https,
+                proxy: {
+                    target: serverUrl,
+                    ws: true
+                }
+            }, {
+                reload: false
+            }),
+            new webpack.HotModuleReplacementPlugin(),
+            new AnyBarWebpackPlugin({
+                enableNotifications: true
+            }),
+        ]
+    }
 
-	if (rtConfig.out2disk) {
-		devConfig.plugins.push(new WriteFilePlugin())
-	}
+    if (rtConfig.out2disk) {
+        devConfig.plugins.push(new WriteFilePlugin())
+    }
 
-	return devConfig
+    return devConfig
 }

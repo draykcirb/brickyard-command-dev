@@ -16,30 +16,30 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const butil = require('brickyard3/lib/util')
 
 module.exports = {
-	make: function (runtime, configFactory) {
-		const commonWebpackConfig = constructCommon(runtime.config)
+    make: function (runtime, configFactory) {
+        const commonWebpackConfig = constructCommon(runtime.config)
 
-		const targetWebpackConfig = configFactory(runtime.config, commonWebpackConfig)
+        const targetWebpackConfig = configFactory(runtime.config, commonWebpackConfig)
 
-		targetWebpackConfig.plugins.push(
-			defineGlobalVars(runtime.config, targetWebpackConfig.debug),
-			...createEntries(runtime.plugins)
-		)
+        targetWebpackConfig.plugins.push(
+            defineGlobalVars(runtime.config, targetWebpackConfig.debug),
+            ...createEntries(runtime.plugins)
+        )
 
-		targetWebpackConfig.entry.main.push(...Object.keys(runtime.plugins))
+        targetWebpackConfig.entry.main.push(...Object.keys(runtime.plugins))
 
-		const pluginAliases = aliasPlugins(runtime.plugins)
+        const pluginAliases = aliasPlugins(runtime.plugins)
 
-		const pluginsWebpackConfig = mergeWebpackConfigOfPlugins(runtime.plugins)
+        const pluginsWebpackConfig = mergeWebpackConfigOfPlugins(runtime.plugins)
 
-		return _.mergeWith(
-			targetWebpackConfig,
-			pluginsWebpackConfig,
-			commonWebpackConfig,
-			{ resolve: { alias: pluginAliases } },
-			mergeOperator
-		)
-	}
+        return _.mergeWith(
+            targetWebpackConfig,
+            pluginsWebpackConfig,
+            commonWebpackConfig,
+            { resolve: { alias: pluginAliases } },
+            mergeOperator
+        )
+    }
 }
 
 /**
@@ -50,81 +50,81 @@ module.exports = {
  * @returns {Object}
  */
 function constructCommon(config) {
-	const defaultConfig = {
-		context: path.resolve(process.cwd(), config.pluginStore),
-		output: {
-			path: path.join(config.outputBase, 'www')
-		},
-		module: {
-			loaders: [
-				// **********************************
-				// special
-				// **********************************
-				{
-					test: /jquery$/,
-					loader: 'expose?$!expose?jQuery'
-				},
-				{
-					test: /index\.html$/,
-					loader: 'html?attrs=link:href img:src use:xlink:href'
-				}
-			]
-		},
-		plugins: [
-			new webpack.optimize.DedupePlugin(),
-			new webpack.ProvidePlugin({
-				jQuery: 'jquery',
-				$: 'jquery',
-				'window.jQuery': 'jquery'
-			}),
-			new webpack.ResolverPlugin(
-				new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('.bower.json', ['main'])
-			),
-			new ProgressBarPlugin()
-		],
-		resolve: {
-			extensions: ['', '.webpack.js', '.web.js', '.js'],
-			root: [path.resolve(process.cwd(), 'node_modules'), path.join(config.outputBase, 'bower_components')]
-		},
-		postcss: function () {
-			return [
-				autoPrefixer({
-					browsers: [
-						'last 2 versions',
-						'> 1%',
-						'not ie <= 8'
-					],
-					add: true
-				}),
-				require('postcss-normalize-charset')
-			]
-		},
-		eslint: {
-			emitError: true,
-			emitWarning: false,
-			quiet: false,
-			failOnWarning: false,
-			failOnError: true
-		}
-	}
+    const defaultConfig = {
+        context: path.resolve(process.cwd(), config.pluginStore),
+        output: {
+            path: path.join(config.outputBase, 'www')
+        },
+        module: {
+            loaders: [
+                // **********************************
+                // special
+                // **********************************
+                {
+                    test: /jquery$/,
+                    loader: 'expose?$!expose?jQuery'
+                },
+                {
+                    test: /index\.html$/,
+                    loader: 'html?attrs=link:href img:src use:xlink:href'
+                }
+            ]
+        },
+        plugins: [
+            new webpack.optimize.DedupePlugin(),
+            new webpack.ProvidePlugin({
+                jQuery: 'jquery',
+                $: 'jquery',
+                'window.jQuery': 'jquery'
+            }),
+            new webpack.ResolverPlugin(
+                new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('.bower.json', ['main'])
+            ),
+            new ProgressBarPlugin()
+        ],
+        resolve: {
+            extensions: ['', '.webpack.js', '.web.js', '.js'],
+            root: [path.resolve(process.cwd(), 'node_modules'), path.join(config.outputBase, 'bower_components')]
+        },
+        postcss: function () {
+            return [
+                autoPrefixer({
+                    browsers: [
+                        'last 2 versions',
+                        '> 1%',
+                        'not ie <= 8'
+                    ],
+                    add: true
+                }),
+                require('postcss-normalize-charset')
+            ]
+        },
+        eslint: {
+            emitError: true,
+            emitWarning: false,
+            quiet: false,
+            failOnWarning: false,
+            failOnError: true
+        }
+    }
 
-	if (config.lint) {
-		defaultConfig.module.preLoaders = [
-			// style lint
-			{
-				test: /\.(scss|css)$/,
-				loader: 'stylelint'
-			},
-			// eslint
-			{
-				test: /\.js$/,
-				exclude: /(node_modules|bower_components)/,
-				loader: 'eslint-loader'
-			}
-		]
-	}
+    if (config.lint) {
+        defaultConfig.module.preLoaders = [
+            // style lint
+            {
+                test: /\.(scss|css)$/,
+                loader: 'stylelint'
+            },
+            // eslint
+            {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'eslint-loader'
+            }
+        ]
+    }
 
-	return defaultConfig
+    return defaultConfig
 }
 
 // ==========================================================
@@ -135,14 +135,16 @@ function constructCommon(config) {
  * @param plugins
  */
 function mergeWebpackConfigOfPlugins(plugins) {
-	const pattern = butil.getFileGlobPattern('', _.map(plugins, 'raw.path'), 'webpack.config.js')
+    const pattern = butil.getFileGlobPattern('', _.map(plugins, 'raw.path'), 'webpack.config.js')
 
-	return _.mergeWith.apply(_,
-		_.chain(glob.sync(pattern))
-			.map(_path => require(_path))
-			.value()
-			.concat([mergeOperator])
-	)
+    return _.mergeWith(
+        ...(
+            _.chain(glob.sync(pattern))
+                .map(_path => require(_path))
+                .value()
+                .concat([mergeOperator])
+        )
+    )
 }
 
 /**
@@ -152,9 +154,9 @@ function mergeWebpackConfigOfPlugins(plugins) {
  * @param srcValue
  */
 function mergeOperator(objValue, srcValue) {
-	if (Array.isArray(objValue)) {
-		return objValue.concat(srcValue)
-	}
+    if (Array.isArray(objValue)) {
+        return objValue.concat(srcValue)
+    }
 }
 
 /**
@@ -163,24 +165,24 @@ function mergeOperator(objValue, srcValue) {
  * @returns {Array}
  */
 function createEntries(plugins) {
-	return _.chain(plugins)
-		.map(function (plugin) {
-			let entry = _.get(plugin, 'raw.plugin.entry')
+    return _.chain(plugins)
+        .map(function (plugin) {
+            let entry = _.get(plugin, 'raw.plugin.entry')
 
-			if (!Array.isArray(entry)) {
-				entry = [entry]
-			}
+            if (!Array.isArray(entry)) {
+                entry = [entry]
+            }
 
-			return entry.reduce(function (result, value) {
-				if (value) {
-					result.push(createEntry(path.join(plugin.path, value)))
-				}
-				return result
-			}, [])
-		})
-		.flatten()
-		.compact()
-		.value()
+            return entry.reduce(function (result, value) {
+                if (value) {
+                    result.push(createEntry(path.join(plugin.path, value)))
+                }
+                return result
+            }, [])
+        })
+        .flatten()
+        .compact()
+        .value()
 }
 
 /**
@@ -188,11 +190,11 @@ function createEntries(plugins) {
  * @param _path
  */
 function createEntry(_path) {
-	return new HtmlWebpackPlugin({
-		filename: 'index.html',
-		template: _path,
-		chunksSortMode: 'dependency'
-	})
+    return new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: _path,
+        chunksSortMode: 'dependency'
+    })
 }
 
 /**
@@ -201,10 +203,10 @@ function createEntry(_path) {
  * @returns {*}
  */
 function aliasPlugins(plugins) {
-	return _.reduce(plugins, function (result, plugin) {
-		result[plugin.name] = plugin.path
-		return result
-	}, {})
+    return _.reduce(plugins, function (result, plugin) {
+        result[plugin.name] = plugin.path
+        return result
+    }, {})
 }
 
 /**
@@ -214,10 +216,10 @@ function aliasPlugins(plugins) {
  * @returns {webpack.DefinePlugin}
  */
 function defineGlobalVars(runtimeConfig, isDebug) {
-	const globals = Object.assign({}, runtimeConfig.globals, {
-		APP_DEBUG_MODE: isDebug || !!runtimeConfig.debuggable
-	})
+    const globals = Object.assign({}, runtimeConfig.globals, {
+        APP_DEBUG_MODE: isDebug || !!runtimeConfig.debuggable
+    })
 
-	return new webpack.DefinePlugin(globals)
+    return new webpack.DefinePlugin(globals)
 }
 
