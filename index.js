@@ -52,6 +52,8 @@ function register(cmd, runnerCallback) {
         .option('--proxy-host <host>', 'access proxy host')
         .option('--livereload', 'livereload')
         .option('--dest <dir>', 'output dir')
+        .option('--dest-prefix <prefix>', 'output dir prefix')
+        .option('--dest-postfix <postfix>', 'output dir to host actual assets')
         .option('--watch', 'watch file for changes')
         .option('--lint', 'lint the files')
         .option('--no-browse', 'open the browser automatically')

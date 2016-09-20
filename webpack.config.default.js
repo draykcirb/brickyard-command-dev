@@ -53,7 +53,7 @@ function constructCommon(config) {
     const defaultConfig = {
         context: path.resolve(process.cwd(), config.pluginStore),
         output: {
-            path: path.join(config.outputBase, 'www')
+            path: path.join(config.outputBase, config.destPostfix)
         },
         module: {
             loaders: [
