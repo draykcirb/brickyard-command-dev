@@ -14,7 +14,23 @@ const _ = require('lodash')
 
 module.exports = {
 	register,
-	run
+	run,
+	config: {
+		port: 8080,
+		host: 'localhost',
+		bsProxy: {
+			port: 3000,
+			host: 'localhost'
+		},
+		apiProxy: null,
+		watch: false,
+		livereload: false,
+		https: false,
+		showConfig: false,
+		browse: true,
+		out2disk: false,
+		globals: null // object
+	}
 }
 
 /**
@@ -57,8 +73,6 @@ function register(cmd, runnerCallback) {
 				runnerCallback(option)
 			}
 		})
-
-	return cmd
 }
 
 function run(runtime) {
