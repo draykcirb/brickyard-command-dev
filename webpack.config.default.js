@@ -1,3 +1,4 @@
+/* eslint import/no-extraneous-dependencies:0 */
 /**
  * Created by scott on 16-5-6.
  */
@@ -16,25 +17,28 @@ const butil = require('brickyard3/lib/util')
 
 module.exports = {
 	make: function (runtime, configFactory) {
-		const runtimeConfig = runtime.config
+		const commonWebpackConfig = constructCommon(runtime.config)
 
-		const defaultConfig = constructDefault(runtimeConfig)
+		const targetWebpackConfig = configFactory(runtime.config, commonWebpackConfig)
 
-		const targetConfig = configFactory(runtimeConfig, defaultConfig)
+		targetWebpackConfig.plugins.push(
+			defineGlobalVars(runtime.config, targetWebpackConfig.debug),
+			...createEntries(runtime.plugins)
+		)
 
-		targetConfig.plugins.push(defineGlobals(runtimeConfig, targetConfig.debug))
-
-		const htmlEntries = createEntries(runtime.plugins)
-
-		targetConfig.plugins.push.apply(targetConfig.plugins, htmlEntries)
+		targetWebpackConfig.entry.main.push(...Object.keys(runtime.plugins))
 
 		const pluginAliases = aliasPlugins(runtime.plugins)
 
-		const pluginsConfig = mergePluginWebpackConfig(runtime.plugins)
+		const pluginsWebpackConfig = mergeWebpackConfigOfPlugins(runtime.plugins)
 
-		Array.prototype.push.apply(targetConfig.entry.main, Object.keys(runtime.plugins))
-
-		return _.mergeWith(targetConfig, pluginsConfig, defaultConfig, { resolve: { alias: pluginAliases } }, mergeOperator)
+		return _.mergeWith(
+			targetWebpackConfig,
+			pluginsWebpackConfig,
+			commonWebpackConfig,
+			{ resolve: { alias: pluginAliases } },
+			mergeOperator
+		)
 	}
 }
 
@@ -42,10 +46,10 @@ module.exports = {
  * construct the most common webpack config,
  * which can be used in dev mode and release mode
  *
- * @param config
- * @returns Object
+ * @param {Object} config
+ * @returns {Object}
  */
-function constructDefault(config) {
+function constructCommon(config) {
 	const defaultConfig = {
 		context: path.resolve(process.cwd(), config.pluginStore),
 		output: {
@@ -108,7 +112,7 @@ function constructDefault(config) {
 			{
 				test: /\.js$/,
 				exclude: /(node_modules|bower_components)/,
-				loaders: ['eslint-loader']
+				loader: 'eslint-loader'
 			}
 		]
 	}
@@ -123,14 +127,12 @@ function constructDefault(config) {
  * and merge them into one config object
  * @param plugins
  */
-function mergePluginWebpackConfig(plugins) {
+function mergeWebpackConfigOfPlugins(plugins) {
 	const pattern = butil.getFileGlobPattern('', _.map(plugins, 'raw.path'), 'webpack.config.js')
 
 	return _.mergeWith.apply(_,
 		_.chain(glob.sync(pattern))
-			.map(function (_path) {
-				return require(_path)
-			})
+			.map(_path => require(_path))
 			.value()
 			.concat([mergeOperator])
 	)
@@ -141,7 +143,6 @@ function mergePluginWebpackConfig(plugins) {
  *
  * @param objValue
  * @param srcValue
- * @returns {Array|Array.<T>|string|*|Buffer}
  */
 function mergeOperator(objValue, srcValue) {
 	if (Array.isArray(objValue)) {
@@ -151,23 +152,24 @@ function mergeOperator(objValue, srcValue) {
 
 /**
  * create html entries based on each plugin's declaration
- * @param plugins
- * @returns {*}
+ * @param {Array} plugins
+ * @returns {Array}
  */
 function createEntries(plugins) {
 	return _.chain(plugins)
 		.map(function (plugin) {
 			let entry = _.get(plugin, 'raw.plugin.entry')
-			if (Array.isArray(entry)) {
-				return entry.reduce(function (result, value) {
-					result.push(createEntry(path.join(plugin.path, value)))
-					return result
-				}, [])
-			} else if (entry) {
-				return [createEntry(path.join(plugin.path, entry))]
-			} else {
-				return null
+
+			if (!Array.isArray(entry)) {
+				entry = [entry]
 			}
+
+			return entry.reduce(function (result, value) {
+				if (value) {
+					result.push(createEntry(path.join(plugin.path, value)))
+				}
+				return result
+			}, [])
 		})
 		.flatten()
 		.compact()
@@ -204,10 +206,10 @@ function aliasPlugins(plugins) {
  * @param isDebug
  * @returns {webpack.DefinePlugin}
  */
-function defineGlobals(runtimeConfig, isDebug) {
-	const globals = Object.assign({
-		APP_DEBUG_MODE: isDebug || runtimeConfig.debuggable
-	}, runtimeConfig.globals)
+function defineGlobalVars(runtimeConfig, isDebug) {
+	const globals = Object.assign({}, runtimeConfig.globals, {
+		APP_DEBUG_MODE: isDebug || !!runtimeConfig.debuggable
+	})
 
 	return new webpack.DefinePlugin(globals)
 }

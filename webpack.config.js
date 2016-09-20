@@ -19,21 +19,22 @@ module.exports = {
 
 /**
  * construct the default development webpack config
- * @param config
- * @param defaultConfig
+ * @param rtConfig
+ * @param commonWebpackConfig
  * @returns Object
  */
-function constructDevDefaultConfig(config, defaultConfig) {
+function constructDevDefaultConfig(rtConfig, commonWebpackConfig) {
 	const serverUrl = url.format({
-		protocol: config.protocol,
-		hostname: config.host,
-		port: config.port
+		protocol: rtConfig.https ? 'https' : 'http',
+		hostname: rtConfig.host,
+		port: rtConfig.port
 	})
-	return {
+
+	const devConfig = {
 		entry: {
 			main: [
 				'babel-polyfill',
-				`webpack-dev-server/client?${serverUrl}/`,
+				'webpack-dev-server/client',
 				'webpack/hot/dev-server'
 			]
 		},
@@ -74,7 +75,7 @@ function constructDevDefaultConfig(config, defaultConfig) {
 				{
 					test: /\.html$/,
 					exclude: /index\.html$/,
-					loaders: [`ngtemplate?relativeTo=${defaultConfig.context}`, 'html?attrs=link:href img:src source:src']
+					loaders: [`ngtemplate?relativeTo=${commonWebpackConfig.context}`, 'html?attrs=link:href img:src source:src']
 				},
 				// image file
 				{
@@ -111,27 +112,27 @@ function constructDevDefaultConfig(config, defaultConfig) {
 						'file?name=font/[name].[ext]'
 					]
 				},
-
 			]
 		},
 		plugins: [
 			new BrowserSyncPlugin({
-					host: config.bsProxy.host,
-					port: config.bsProxy.port,
-					ghostMode: false,
-					https: config.https,
-					proxy: {
-						target: serverUrl,
-						ws: true
-					}
-				},
-				{
-					reload: false
-				}),
+				host: rtConfig.bsProxy.host,
+				port: rtConfig.bsProxy.port,
+				ghostMode: false,
+				https: rtConfig.https,
+				proxy: {
+					target: serverUrl,
+					ws: true
+				}
+			}, {
+				reload: false
+			}),
 			new webpack.HotModuleReplacementPlugin(),
 			new AnyBarWebpackPlugin({
 				enableNotifications: true
 			}),
 		]
 	}
+
+	return devConfig
 }
