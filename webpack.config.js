@@ -8,6 +8,7 @@ const webpack = require('webpack')
 const url = require('url')
 
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
+const WriteFilePlugin = require('write-file-webpack-plugin')
 const AnyBarWebpackPlugin = require('anybar-webpack')
 const configDefaulter = require('./webpack.config.default')
 
@@ -132,6 +133,10 @@ function constructDevDefaultConfig(rtConfig, commonWebpackConfig) {
 				enableNotifications: true
 			}),
 		]
+	}
+
+	if (rtConfig.out2disk) {
+		devConfig.plugins.push(new WriteFilePlugin())
 	}
 
 	return devConfig
