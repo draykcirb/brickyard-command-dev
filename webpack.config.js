@@ -53,12 +53,6 @@ function constructDevDefaultConfig(rtConfig, commonWebpackConfig) {
                     test: /favicon.ico$/,
                     loader: 'file?name=[name].[ext]'
                 },
-                // js file
-                {
-                    test: /\.js$/,
-                    exclude: /(node_modules|bower_components)/,
-                    loaders: ['ng-annotate-loader', 'babel-loader?cacheDirectory']
-                },
                 // pure css
                 {
                     test: /\.css$/,
@@ -68,12 +62,6 @@ function constructDevDefaultConfig(rtConfig, commonWebpackConfig) {
                 {
                     test: /\.scss$/,
                     loaders: ['style', 'css?sourceMap&autoprefixer&normalizeCharset', 'postcss', 'resolve-url', 'sass?sourceMap']
-                },
-                // html
-                {
-                    test: /\.html$/,
-                    exclude: /index\.html$/,
-                    loaders: [`ngtemplate?relativeTo=${commonWebpackConfig.context}`, 'html?attrs=link:href img:src source:src']
                 },
                 // image file
                 {
