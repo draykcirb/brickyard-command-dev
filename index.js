@@ -89,6 +89,8 @@ function run(runtime) {
 
     brickyardWebpack.registerFactory(configMaker.construct)
 
+    process.env.NODE_ENV = 'DEVELOPMENT'
+
     const webpackConfig = brickyardWebpack.makeConfig(runtime)
 
     if (runtime.config.showConfig) {
