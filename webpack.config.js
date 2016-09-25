@@ -29,13 +29,6 @@ function constructDevDefaultConfig(rtConfig, commonWebpackConfig) {
     })
 
     const devConfig = {
-        entry: {
-            main: [
-                'babel-polyfill',
-                'webpack-dev-server/client',
-                'webpack/hot/dev-server'
-            ]
-        },
         output: {
             publicPath: `${serverUrl}/`,
             pathinfo: true,
