@@ -4,7 +4,6 @@
 'use strict'
 
 const logger = require('log4js').getLogger('dev-command')
-const configMaker = require('./webpack.config')
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 const util = require('util')
@@ -12,6 +11,8 @@ const proxy = require('http-proxy-middleware')
 const morgan = require('morgan')
 const _ = require('lodash')
 const brickyardWebpack = require('brickyard-webpack')
+
+const configMaker = require('./webpack.config')
 
 module.exports = {
     register,
@@ -94,7 +95,10 @@ function run(runtime) {
     const webpackConfig = brickyardWebpack.makeConfig(runtime)
 
     if (runtime.config.showConfig) {
-        logger.info('Following is the generated webpack config object with depth 4', util.inspect(webpackConfig, { depth: 4 }))
+        logger.info(
+            'Following is the generated webpack config object with depth 4',
+            util.inspect(webpackConfig, { depth: 4 })
+        )
     } else {
         const compiler = webpack(webpackConfig)
 

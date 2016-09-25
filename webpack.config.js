@@ -21,7 +21,7 @@ module.exports = {
  * @param commonWebpackConfig
  * @returns Object
  */
-function constructDevDefaultConfig(rtConfig, commonWebpackConfig) {
+function constructDevDefaultConfig(rtConfig) {
     const serverUrl = url.format({
         protocol: rtConfig.https ? 'https' : 'http',
         hostname: rtConfig.host,
@@ -54,7 +54,7 @@ function constructDevDefaultConfig(rtConfig, commonWebpackConfig) {
                 // scss
                 {
                     test: /\.scss$/,
-                    loaders: ['style', 'css?sourceMap&autoprefixer&normalizeCharset', 'postcss', 'resolve-url', 'sass?sourceMap']
+                    loaders: ['style', 'css?sourceMap', 'postcss', 'resolve-url', 'sass?sourceMap']
                 },
                 // image file
                 {
