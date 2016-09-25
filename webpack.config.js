@@ -10,12 +10,9 @@ const url = require('url')
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 const WriteFilePlugin = require('write-file-webpack-plugin')
 const AnyBarWebpackPlugin = require('anybar-webpack')
-const configDefaulter = require('./webpack.config.default')
 
 module.exports = {
-    make: function (runtime) {
-        return configDefaulter.make(runtime, constructDevDefaultConfig)
-    }
+    construct: constructDevDefaultConfig
 }
 
 /**

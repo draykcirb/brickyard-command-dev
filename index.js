@@ -11,6 +11,7 @@ const util = require('util')
 const proxy = require('http-proxy-middleware')
 const morgan = require('morgan')
 const _ = require('lodash')
+const brickyardWebpack = require('brickyard-webpack')
 
 module.exports = {
     register,
@@ -86,7 +87,10 @@ function run(runtime) {
         process.exit(1)
     }
 
-    const webpackConfig = configMaker.make(runtime)
+    brickyardWebpack.registerFactory(configMaker.construct)
+
+    const webpackConfig = brickyardWebpack.makeConfig(runtime)
+
     if (runtime.config.showConfig) {
         logger.info('Following is the generated webpack config object with depth 4', util.inspect(webpackConfig, { depth: 4 }))
     } else {
