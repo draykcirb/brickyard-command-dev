@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/draykcirb/brickyard-command-dev/compare/v0.3.0...v1.0.0) (2016-09-26)
+
+
+### Bug Fixes
+
+* remove angular specific code ([4ffb62f](https://github.com/draykcirb/brickyard-command-dev/commit/4ffb62f))
+* remove entry definition to allow more user customization ([a471b6d](https://github.com/draykcirb/brickyard-command-dev/commit/a471b6d))
+
+
+### Features
+
+* add environment variable setting when starting to run ([a9a462a](https://github.com/draykcirb/brickyard-command-dev/commit/a9a462a))
+* extract common webpack config construction logic into another repo ([4e8da5c](https://github.com/draykcirb/brickyard-command-dev/commit/4e8da5c))
+
+
+### BREAKING CHANGES
+
+* due to extraction to another repo, remove most of webpack dependencies
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/draykcirb/brickyard-command-dev/compare/v0.2.0...v0.3.0) (2016-09-21)
 
