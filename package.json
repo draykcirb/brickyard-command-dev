@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "anybar-webpack": "^1.2.0",
-    "brickyard-webpack": "^1.0.0",
+    "brickyard-webpack": "^2.0.0",
     "browser-sync": "^2.16.0",
     "browser-sync-webpack-plugin": "^1.1.2",
     "glob": "^7.0.3",
