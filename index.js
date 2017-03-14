@@ -1,6 +1,7 @@
 /**
  * Created by scott on 16-3-31.
  */
+
 'use strict'
 
 const logger = require('log4js').getLogger('dev-command')
@@ -105,7 +106,6 @@ function run(runtime) {
         const server = new WebpackDevServer(compiler, {
             // Tell the webpack dev server from where to find the files to serve.
             contentBase: webpackConfig.output.path,
-            colors: true,
             publicPath: webpackConfig.output.publicPath,
             host: runtime.config.host,
             port: runtime.config.port,
@@ -136,7 +136,7 @@ function run(runtime) {
         }
 
 
-        server.listen(runtime.config.port, runtime.config.host, function () {
+        server.listen(runtime.config.port, runtime.config.host, () => {
             logger.info('webpack-dev-server running...')
         })
     }

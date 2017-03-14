@@ -2,6 +2,7 @@
 /**
  * Created by scott on 16-4-5.
  */
+
 'use strict'
 
 const webpack = require('webpack')
@@ -37,58 +38,63 @@ function constructDevDefaultConfig(rtConfig) {
                 return `file:///${info.absoluteResourcePath.replace(/\\/g, '/')}`
             }
         },
-        debug: true,
         devtool: 'source-map',
         module: {
-            loaders: [
+            rules: [
                 // website ico
                 {
                     test: /favicon.ico$/,
-                    loader: 'file?name=[name].[ext]'
+                    loader: 'file-loader?name=[name].[ext]'
                 },
                 // pure css
                 {
                     test: /\.css$/,
-                    loaders: ['style', 'css?sourceMap', 'postcss']
+                    loaders: ['style-loader', 'css-loader?sourceMap', 'postcss-loader']
                 },
                 // scss
                 {
                     test: /\.scss$/,
-                    loaders: ['style', 'css?sourceMap', 'postcss', 'resolve-url', 'sass?sourceMap']
+                    loaders: [
+                        'style-loader',
+                        'css-loader?sourceMap',
+                        'postcss-loader',
+                        'resolve-url-loader',
+                        'sass-loader?sourceMap'
+                    ]
                 },
                 // image file
                 {
                     test: /\.(jpe?g|png|gif|svg)$/i,
                     loaders: [
-                        'file?name=img/[name].[ext]'
+                        'file-loader?name=img/[name].[ext]'
                     ]
                 },
                 // misc file
                 {
                     test: /\.(json|map|wsdl|xsd)$/,
                     loaders: [
-                        'file?name=misc/[name].[ext]'
+                        'file-loader?name=misc/[name].[ext]'
                     ]
                 },
                 // music file
                 {
                     test: /\.(mp3|wav)$/,
                     loaders: [
-                        'file?name=media/[name].[ext]'
+                        'file-loader?name=media/[name].[ext]'
                     ]
                 },
                 // font file
                 {
                     test: /\.(woff|woff2|ttf|eot)(\?.+)?$/,
                     loaders: [
-                        'file?name=font/[name].[ext]'
+                        'file-loader?name=font/[name].[ext]'
                     ]
                 },
                 // svg font file
                 {
                     test: /\.(svg)(\?.+)$/,
                     loaders: [
-                        'file?name=font/[name].[ext]'
+                        'file-loader?name=font/[name].[ext]'
                     ]
                 },
             ]
@@ -110,6 +116,9 @@ function constructDevDefaultConfig(rtConfig) {
             new AnyBarWebpackPlugin({
                 enableNotifications: true
             }),
+            new webpack.LoaderOptionsPlugin({
+                debug: true
+            })
         ]
     }
 
